@@ -1,4 +1,4 @@
 package com.snimmo.oss.vma.valuemapping;
 
-public class ValueMapping {
+public record ValueMapping(Integer sourceSystemId, String sourceValue, Integer targetSystemId, String targetValue, ValueType targetValueType) {
 }

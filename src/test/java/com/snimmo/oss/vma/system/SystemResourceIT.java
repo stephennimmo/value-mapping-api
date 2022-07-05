@@ -1,4 +1,4 @@
-package com.snimmo.oss.vma;
+package com.snimmo.oss.vma.system;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 

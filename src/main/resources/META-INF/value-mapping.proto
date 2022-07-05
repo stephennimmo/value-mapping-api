@@ -1,0 +1,26 @@
+package value_mapping;
+
+message System {
+  required int32 systemId = 1;
+  required string name = 2;
+}
+
+message ValueMappingKey {
+  required int32 sourceSystemId = 1;
+  required string sourceValue = 2;
+  required int32 targetSystemId = 3;
+}
+
+message ValueMapping {
+  required int32 sourceSystemId = 1;
+  required string sourceValue = 2;
+  required int32 targetSystemId = 3;
+  required ValueType targetValueType = 4;
+  required string targetValue = 5;
+}
+
+enum ValueType {
+  STRING = 0;
+  INTEGER = 1;
+  DECIMAL = 2;
+}

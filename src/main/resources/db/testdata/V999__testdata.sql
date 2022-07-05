@@ -1,0 +1,1 @@
+insert into system (system_id, name) values (1, 'CANONICAL');
