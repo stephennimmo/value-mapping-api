@@ -5,6 +5,7 @@ import io.quarkus.test.junit.mockito.InjectMock;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.List;
 import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
@@ -18,12 +19,29 @@ public class ValueMappingResourceTest {
     ValueMappingRepository valueMappingRepository;
 
     @Test
+    public void getBySourceSystemIdAndTargetSystemId() {
+        Mockito.when(valueMappingRepository.find(1, 2))
+                .thenReturn(List.of(new ValueMappingEntity(1, 1, "TEST", 2, "TEST2", ValueType.STRING)));
+        ValueMapping[] valueMappings = given()
+                .when()
+                .get("/value-mappings/1/2")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .extract()
+                .as(ValueMapping[].class);
+        assertThat(valueMappings)
+                .isNotNull()
+                .hasSize(1)
+                .contains(new ValueMapping(1, 1, "TEST", 2, "TEST2", ValueType.STRING));
+    }
+
+    @Test
     public void getBySourceSystemIdAndSourceValueAndTargetSystemId() {
         Mockito.when(valueMappingRepository.find(1, "TEST", 2))
                 .thenReturn(Optional.of(new ValueMappingEntity(1, 1, "TEST", 2, "TEST2", ValueType.STRING)));
         ValueMapping valueMapping = given()
                 .when()
-                .get("/value-mapping/1/TEST/2")
+                .get("/value-mappings/1/TEST/2")
                 .then()
                 .statusCode(OK.getStatusCode())
                 .extract()

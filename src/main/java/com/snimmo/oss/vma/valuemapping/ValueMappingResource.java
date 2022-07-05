@@ -13,7 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/value-mapping")
+@Path("/value-mappings")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "value-mapping", description = "Value Mapping Operations")
@@ -22,6 +22,23 @@ import javax.ws.rs.core.Response;
 public class ValueMappingResource {
 
     private final ValueMappingService valueMappingService;
+
+    @GET
+    @Path("/{sourceSystemId}/{targetSystemId}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Get ValueMappings by sourceSystemId and targetSystemId",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.ARRAY, implementation = ValueMapping.class)
+            )
+    )
+    public Response getById(
+            @Parameter(name = "sourceSystemId", required = true) @PathParam("sourceSystemId") Integer sourceSystemId,
+            @Parameter(name = "targetSystemId", required = true) @PathParam("targetSystemId") Integer targetSystemId
+    ) {
+        return Response.ok(valueMappingService.find(sourceSystemId, targetSystemId)).build();
+    }
 
     @GET
     @Path("/{sourceSystemId}/{sourceValue}/{targetSystemId}")
